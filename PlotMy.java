@@ -65,6 +65,7 @@ public class PlotMy {
         graph.draw(shape);
       }
       graph.setStroke(new BasicStroke(1.0f));
+      graph.setClip((int)rectxmin, (int)rectymin, (int)rectxdiff, (int)rectydiff);
       for (int j = 1; j < xpoints.length; j++)
       {
         double x1 = (xpoints[j-1]-xmin)/(xmax-xmin)*rectxdiff + rectxmin;
@@ -82,11 +83,7 @@ public class PlotMy {
         graph.setColor(Color.RED);
         graph.draw(shape);
       }
-      graph.setColor(Color.WHITE);
-      graph.fillRect(0, 0, 1024, (int)rectymin);
-      graph.fillRect(0, 0, (int)rectxmin, 768);
-      graph.fillRect((int)rectxmax, 0, 1024-(int)rectxmax, 768);
-      graph.fillRect(0, (int)rectymax, 1024, 768-(int)rectymax);
+      graph.setClip(0, 0, 1024, 768);
       Rectangle2D.Double rect;
       rect = new Rectangle2D.Double(rectxmin, rectymin, rectxdiff, rectydiff);
       graph.setStroke(new BasicStroke(1.0f));
@@ -103,9 +100,6 @@ public class PlotMy {
         double y2 = y;
         graph.drawString(""+(10*j), 6, (int)y + 5);
       }
-      graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_OFF);
-      graph.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-      graph.setColor(Color.BLACK);
       for (int j = 0; j <= 20; j++)
       {
         double x = (0.1*j-xmin)/(xmax-xmin)*rectxdiff + rectxmin;
