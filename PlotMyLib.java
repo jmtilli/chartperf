@@ -28,7 +28,7 @@ public class PlotMyLib {
     double xmin = xpoints[0];
     double ymax = 60, ymin = -5;
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 500; i++)
     {
       MyLineChart chart = new MyLineChart();
       buf = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
@@ -38,6 +38,19 @@ public class PlotMyLib {
       chart.addSeries(xpoints, ypoints2, Color.RED);
       chart.render(graph, 1024, 768);
     }
+    long start = System.nanoTime();
+    for (int i = 0; i < 500; i++)
+    {
+      MyLineChart chart = new MyLineChart();
+      buf = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
+      Graphics2D graph = buf.createGraphics();
+      chart.setYBounds(ymin, ymax);
+      chart.addSeries(xpoints, ypoints, Color.BLUE);
+      chart.addSeries(xpoints, ypoints2, Color.RED);
+      chart.render(graph, 1024, 768);
+    }
+    long end = System.nanoTime();
+    System.out.println((end - start)/1000.0/1000.0/500 + " ms per chart");
     if (args.length >= 1)
     {
       ImageIO.write(buf, "png", new File(args[0]));

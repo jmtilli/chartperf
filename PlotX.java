@@ -21,7 +21,7 @@ public class PlotX {
       ypoints2[i] = 10*Math.log(2*Data.data[i])/Math.log(10);
     }
 
-    for (int i = 0; i < 1000; i++)
+    for (int i = 0; i < 500; i++)
     {
       XYChart xychart = new XYChartBuilder().width(800).height(600).title("XRR").xAxisTitle("degrees").yAxisTitle("dB").build();
       xychart.getStyler().setChartBackgroundColor(UIManager.getColor("Panel.background"));
@@ -45,5 +45,32 @@ public class PlotX {
       buf = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
       xychart.paint(buf.createGraphics(), 1024, 768);
     }
+    long start = System.nanoTime();
+    for (int i = 0; i < 500; i++)
+    {
+      XYChart xychart = new XYChartBuilder().width(800).height(600).title("XRR").xAxisTitle("degrees").yAxisTitle("dB").build();
+      xychart.getStyler().setChartBackgroundColor(UIManager.getColor("Panel.background"));
+      xychart.getStyler().setDefaultSeriesRenderStyle(org.knowm.xchart.XYSeries.XYSeriesRenderStyle.Line);
+      xychart.getStyler().setYAxisLabelAlignment(Styler.TextAlignment.Right);
+      xychart.getStyler().setPlotMargin(0);
+      xychart.getStyler().setPlotContentSize(.99);
+      xychart.getStyler().setLegendVisible(false);
+      xychart.getStyler().setAntiAlias(false);
+      org.knowm.xchart.XYSeries ser2 = xychart.addSeries("Measurement", xpoints, ypoints);
+      ser2.setLineColor(Color.BLUE);
+      ser2.setLineWidth(1);
+      ser2.setMarker(new None());
+      org.knowm.xchart.XYSeries ser1 = xychart.addSeries("Simulation", xpoints, ypoints2);
+      ser1.setLineColor(Color.RED);
+      ser1.setLineWidth(1);
+      ser1.setMarker(new None());
+      xychart.getStyler().setYAxisMin(-5.0);
+      xychart.getStyler().setYAxisMax(60.0);
+      BufferedImage buf;
+      buf = new BufferedImage(1024, 768, BufferedImage.TYPE_INT_RGB);
+      xychart.paint(buf.createGraphics(), 1024, 768);
+    }
+    long end = System.nanoTime();
+    System.out.println((end - start)/1000.0/1000.0/500 + " ms per chart");
   }
 }
